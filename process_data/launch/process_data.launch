@@ -1,0 +1,13 @@
+<launch>
+  <param name="/use_sim_time" value="true" />
+
+  <node pkg="process_data" type="process_data" name="process_data" output="screen">
+      <rosparam command="load" file="$(find process_data)/params/sensor_covariance.yaml" />
+    <!--  Placeholder for output topic remapping
+    <remap from="odometry/filtered" to="/out_odom"/>
+    <remap from="accel/filtered" to="/out_accel"/>
+    -->
+  </node>
+
+  <node pkg="rosbag" type="play" name="rosbag" args="/home/rxx/iekf_ws/slow2.bag --clock -d 1 "  />
+</launch>

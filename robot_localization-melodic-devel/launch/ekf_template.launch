@@ -1,0 +1,36 @@
+<launch>
+  <param name="/use_sim_time" value="true" />
+  <node pkg="rviz" type="rviz" name="rviz" args="-d /home/rxx/iekf_ws/ekf.rviz" required="true" />
+
+  <node pkg="rqt_plot" type="rqt_plot" name="rqt_plot" output="log" />
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_fusion" clear_params="true" output="screen">
+    <rosparam command="load" file="$(find robot_localization)/params/ekf_template.yaml" />
+    <!--  Placeholder for output topic remapping-->
+    <remap from="odometry/filtered" to="/out_odom"/>
+    <remap from="accel/filtered" to="/out_accel"/>
+
+    <!-- <rosparam param="initial_state">[0.13, -1.3, 0.0,
+                                     0.0,  0.0,  0.0,
+                                     0.0,  0.0,  0.0,
+                                     0.0,  0.0,  0.0,
+                                     0.0,  0.0,  0.0]
+    </rosparam> -->
+  </node>
+  
+
+  <!--
+  <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster" args=" 0.23 -1.367 0 0 0 0 1  map odom 10 " />
+  -->
+  
+  <node pkg="process_data" type="process_data" name="process_data" output="screen">
+    <rosparam command="load" file="$(find process_data)/params/sensor_covariance.yaml" />
+  </node>
+  
+
+  
+  <node pkg="rosbag" type="play" name="rosbag" args="/home/rxx/iekf_ws/slow2.bag --clock -d 2"  />
+  <!--延迟1s，输出模拟时钟-->
+  
+
+</launch>

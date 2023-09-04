@@ -1,0 +1,26 @@
+#imu
+#科学计数法和double都可以
+imu_orientation_covariance: [ 0.001 , 0.001 , 0.001]
+imu_angular_velocity_covariance: [0.001 , 0.001, 8e-3]
+imu_linear_acceleration_covariance: [5e-4 , 1e-3 , 4e-5]
+#不开差分8e-3 , 5e-2
+#开差分1e-3,1e-3
+
+#odom
+odom_pose_covariance: [ 5e-3 ,  5e-3 , 1e-6 , 1e-6 , 1e-6 , 1e-6]
+#odom_twist_covariance: [1e-3 , 1e-6 , 1e-6, 1e-6 , 1e-6 , 1e-3]
+odom_twist_covariance: [1e-4 , 1e-6 , 1e-6, 1e-6 , 1e-6 , 1e-4]
+
+#slam
+slam_pose_covariance: [5e-4 , 5e-4 , 5e-4, 2e-4 , 2e-4 , 2e-4]
+
+
+#启动odom->base_link的tf发布
+#如果启动了robot_localization的publish_tf参数，这里就需要设置为true，且不能有其他的map->base_link的tf发布
+#robot_localization发布的tf是map->odom
+odom_to_base_link_publisher: true
+enable_set_pose: true
+
+#注意：只有当你使用世界坐标系为map时才有，如果用的是odom模式，robot_localization会自动发布odom->base_link
+
+QR_pose_covariance: [0 , 0 , 0 , 0 , 0 , 0]
